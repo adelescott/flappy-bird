@@ -2,7 +2,7 @@
 import pygame
 pygame.init()
 
-# Task 3.2 Random pipe sizes
+# Task 3.3 Random pipe sizes
 import random
 
 # Task 4.3 Close the game
@@ -23,30 +23,28 @@ pygame.display.update()
 
 # Task 2.1 Flappy bird
 bird_image = pygame.image.load("bird.png")
-bird_x = 400
+bird_x = 200
 bird_y = 300
 screen.blit(bird_image, (bird_x, bird_y))
 pygame.display.update()
 
 # Task 3.1 Create a list of pipes
 pipe_image = pygame.image.load("pipe.png")
+pipe_x_positions = [500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2300]
 pipes = []
-for i in range(0, 10):
+for pipe_x_position in pipe_x_positions:
     new_pipe = {}
-    new_pipe['x'] = 500 + i*200
+    new_pipe['x'] = pipe_x_position
     new_pipe['y'] = 500
     pipes.append(new_pipe)
 
-# Task 3.2 Random pipe sizes
-for pipe in pipes:
-    pipe['y'] = random.randint(100, 550)
+    # Task 3.3 Random pipe sizes
+    new_pipe['y'] = random.randint(250, 500)
 
-# Bonus 3.5 Flip the pipe
-flipped_pipe_image = pygame.transform.flip(pipe_image, False, True)
-for pipe in pipes:
-    pipe['flipped'] = random.randint(0, 1)
-    if pipe['flipped']:
-        pipe['y'] = pipe['y'] - pipe_image.get_rect().size[1]
+    # Bonus 3.5 Flip the pipe
+    new_pipe['flipped'] = random.randint(0, 1)
+    if new_pipe['flipped']:
+        new_pipe['y'] = size_y - new_pipe['y'] - pipe_image.get_rect().size[1]
 
 # Task 2.2 Create the game loop
 game_running = True
@@ -78,15 +76,15 @@ while game_running:
     screen.blit(background_image, (background_x, background_y))    
     screen.blit(bird_image, (bird_x, bird_y))
 
-    # Task 3.1 Display the pipes
+    # Task 3.2 Draw the pipes
     for pipe in pipes:
         # Bonus 3.5 Flip the pipe
-        if pipe['flipped']:            
+        if pipe['flipped']: 
+            flipped_pipe_image = pygame.transform.flip(pipe_image, False, True)
             screen.blit(flipped_pipe_image, (pipe['x'], pipe['y']))
         else:
             screen.blit(pipe_image, (pipe['x'], pipe['y']))
-        #screen.blit(pipe_image, (pipe['x'], pipe['y']))
-        # Task 3.3 Make the pipes move
+        # Task 3.4 Make the pipes move
         pipe['x'] = pipe['x'] - 1
 
         # Task 4.1 Detect a collision
@@ -94,7 +92,7 @@ while game_running:
         bird_rect = bird_image.get_rect().move(bird_x, bird_y)
         collision = pipe_rect.colliderect(bird_rect)
         if collision:
-            print("Oh no, you lose!")
+            print("Oh no, you lose.")
             # Task 4.2 Stop the game
             game_running = False
 
@@ -102,7 +100,6 @@ while game_running:
 while True:
     events = pygame.event.get()
     for event in events:
-        if event.type == pygame.KEYDOWN:    
-            if event.key == pygame.K_q:
-                pygame.display.quit()
-                sys.exit()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+            pygame.display.quit()
+            sys.exit()
