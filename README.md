@@ -1,2 +1,5 @@
 # flappy-bird
- Reference implementation of Canberra Girls' Programming Network Flappy Bird workshop
+
+Reference implementation for the Canberra Girls' Programming Network Flappy Bird workshop.
+
+Requires pygame installed.
